@@ -8,13 +8,10 @@ def price(k):
 
 prices = [price(i) for i in range(1, n + 1)]
 
-max_decline, max_val, max_val_index = 0, 0, 0
+max_decline, max_val = 0, 0
 
-for i in range(n):
-    if prices[i] > max_val:
-        max_val = prices[i]
-        max_val_index = i
-
-    max_decline = max(max_val - prices[i], max_decline)
+for price in prices:
+    max_val = max(price, max_val)
+    max_decline = max(max_val - price, max_decline)
     
 stdout.write(str(max_decline))
