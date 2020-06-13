@@ -46,7 +46,7 @@ int main() {
     }
 
     auto is_optimal = [&] () {
-        for (int i = 0; i < var_count + 1; i++) {
+        for (int i = 0; i < var_count; i++) {
             if (tableau[n][i] < 0) {
                 return false;
             }
