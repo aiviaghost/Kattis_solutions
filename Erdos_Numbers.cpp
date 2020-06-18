@@ -44,6 +44,6 @@ int main() {
     for (string s : order) {
         cout << s << " " << (dist.at(s) != -1 ? to_string(dist.at(s)) : "no-connection") << "\n";
     }
-
+    
     return 0;
 }
