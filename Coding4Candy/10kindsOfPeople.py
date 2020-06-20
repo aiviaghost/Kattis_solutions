@@ -40,7 +40,7 @@ r, c = map(int, sys.stdin.readline().split())
 
 matrix = []
 for _ in range(r):
-    matrix.append([int(c) for c in sys.stdin.readline().rstrip()])
+    matrix.append(sys.stdin.readline().rstrip())
 
 nodes = []
 for y in range(r):
@@ -74,6 +74,6 @@ n = int(sys.stdin.readline())
 for _ in range(n):
     r1, c1, r2, c2 = map(int, sys.stdin.readline().split())
     if(Find(nodes[r1 - 1][c1 - 1]) == Find(nodes[r2 - 1][c2 - 1])):
-        print("binary" if matrix[r1 - 1][c1 - 1] == 0 else "decimal")
+        print("binary" if matrix[r1 - 1][c1 - 1] == "0" else "decimal")
     else:
         print("neither")
