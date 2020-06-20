@@ -22,37 +22,35 @@ auto main() -> int {
             L[a].push_back({b, w});
         }
 
-        vector<string> curr_answers;
+        unordered_set<int> vis;
+        vector<int> dist(n, numeric_limits<int>::max());
+        dist[s] = 0;
+        priority_queue<pii, vector<pii>, greater<pii>> pq;
+        pq.push({0, s});
+            
+        while (!pq.empty()) {
+            pii curr = pq.top();
+            pq.pop();
 
+            if (vis.find(curr.second) != vis.end()) {
+                continue;
+            }
+
+            vis.emplace(curr.second);
+
+            for (pii next : L[curr.second]) {
+                int alt_dist = dist[curr.second] + next.second;
+                if (alt_dist < dist[next.first]) {
+                    dist[next.first] = alt_dist;
+                    pq.push({dist[next.first], next.first});
+                }
+            }
+        }
+
+        vector<string> curr_answers;
         while (q--) {
             int end;
             cin >> end;
-
-            unordered_set<int> vis;
-            vector<int> dist(n, numeric_limits<int>::max());
-            dist[s] = 0;
-            priority_queue<pii, vector<pii>, greater<pii>> pq;
-            pq.push({0, s});
-            
-            while (!pq.empty()) {
-                pii curr = pq.top();
-                pq.pop();
-
-                if (vis.find(curr.second) != vis.end()) {
-                    continue;
-                }
-
-                vis.emplace(curr.second);
-
-                for (pii next : L[curr.second]) {
-                    int alt_dist = dist[curr.second] + next.second;
-                    if (alt_dist < dist[next.first]) {
-                        dist[next.first] = alt_dist;
-                        pq.push({dist[next.first], next.first});
-                    }
-                }
-            }
-
             curr_answers.push_back(dist[end] == numeric_limits<int>::max() ? "Impossible" : to_string(dist[end]));
         }
         answers.push_back(curr_answers);
