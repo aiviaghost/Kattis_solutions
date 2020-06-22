@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "iosfwd": "cpp",
-        "*.tcc": "cpp"
-    }
+        "*.tcc": "cpp",
+        "iomanip": "cpp"
+    },
+    "python.pythonPath": "C:\\Users\\Admin\\AppData\\Local\\Programs\\Python\\Python38\\python.exe"
 }

@@ -16,15 +16,12 @@ int main() {
         cin >> tableau[i][var_count];
     }
 
-    // vector<double> objective(m);
-
     for (int i = 0; i < m; i++) {
         for (int j = 0; j < n; j++) {
             cin >> tableau[j][i];
             tableau[j][i] /= 100.0;
         }
         cin >> tableau[n][i];
-        // objective[i] = tableau[n][i];
         tableau[n][i] *= -1.0;
     }
 
@@ -33,25 +30,14 @@ int main() {
         tableau[i][m + i] = 1.0;
     }
 
-    // basic variables
-    /*
-    unordered_map<int, int> map;
-    for (int i = 0; i < m; i++) {
-        map.emplace(i, -1);
-    }
-    for (int i = 0; i < n; i++) {
-        map.emplace(m + i, i);
-    }
-    */
-
-    /*
+    
     for (int i = 0; i < n + 1; i++) {
         for (int j = 0; j < var_count + 1; j++) {
             cout << tableau[i][j] << " ";
         }
         cout << "\n";
     }
-    */
+
 
     auto is_optimal = [&] () {
         for (int i = 0; i < var_count; i++) {
@@ -104,12 +90,15 @@ int main() {
     }
 
     cout << tableau[n][var_count] << "\n";
-    /*
-    double profit = 0;
-    for (int i = 0; i < m; i++) {
-        profit = profit + objective[i] * tableau[map.at(i)][var_count];
+
+
+   for (int i = 0; i < n + 1; i++) {
+        for (int j = 0; j < var_count + 1; j++) {
+            cout << tableau[i][j] << " ";
+        }
+        cout << "\n";
     }
-    cout << profit << "\n";
-    */
+
+
     return 0;
 }
