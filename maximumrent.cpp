@@ -12,34 +12,34 @@ auto main() -> int {
 
     vector<pdd> extreme_points;
 
-    if ((s - 1) / 2 < m - 1 && s - 2 < m - 1) {
-        extreme_points.push_back({1, m - 1});
-        extreme_points.push_back({m - 1, 1});
-        extreme_points.push_back({1, s - 2});
-        extreme_points.push_back({(s - 1) / 2, 1});
+    if (m - 1.0 > 1.0 && (s - 1.0) / 2.0 == m - 1.0) {
+        extreme_points.push_back({m - 1.0, 1.0});
     }
-    else if ((s - 1) / 2 < m - 1 && s - 2 > 1) {
-        extreme_points.push_back({m - 1, 1});
-        extreme_points.push_back({(s - 1) / 2, 1});
-        extreme_points.push_back({s - m, 2 * m - s});
+    else if ((s - 1.0) / 2.0 < m - 1.0 && (s - 1.0) / 2.0 > 1.0 && m - 1.0 <= s - 2.0) {
+        extreme_points.push_back({m - 1.0, 1.0});
+        extreme_points.push_back({(s - 1.0) / 2.0, 1.0});
+        extreme_points.push_back({s - m, 2.0 * m - s});
     }
-    else if ((s - 1) / 2 < m - 1 && m - 1 > 1) {
-        extreme_points.push_back({1, m - 1});
-        extreme_points.push_back({m - 1, 1});
-        extreme_points.push_back({1, 1});
+    else if ((s - 1.0) / 2.0 < m - 1.0 && s - 2.0 < m - 1.0 && s - 2.0 > 1.0) {
+        extreme_points.push_back({1.0, m - 1.0});
+        extreme_points.push_back({m - 1.0, 1.0});
+        extreme_points.push_back({1.0, s - 2.0});
+        extreme_points.push_back({(s - 1.0) / 2.0, 1.0});
     }
-    else if (m - 1 > 1) {
-        extreme_points.push_back({m - 1, 1});
+    else if ((s - 1.0) / 2.0 < m - 1.0 && m - 1.0 > 1.0 && s - 2.0 <= 1.0) {
+        extreme_points.push_back({1.0, m - 1.0});
+        extreme_points.push_back({m - 1.0, 1.0});
+        extreme_points.push_back({1.0, 1.0});
     }
     else {
-        extreme_points.push_back({1, 1});
+        extreme_points.push_back({1.0, 1.0});
     }
 
     auto Z = [&](pdd xy) {
         return a * xy.first + b * xy.second;
     };
 
-    double max_val = -1;
+    double max_val = -1.0;
     for (pdd point : extreme_points) {
         max_val = max(Z(point), max_val);
     }
