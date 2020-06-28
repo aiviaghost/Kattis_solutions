@@ -1,8 +1,3 @@
-
-
-// seems to be issue with k < V and cases with small V
-
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -60,7 +55,7 @@ auto main() -> int {
 
                 vis.emplace(curr.second);
 
-                for (pii next : adj[curr.second]) {
+                for (auto next : adj[curr.second]) {
                     int alt_dist = dist[curr.second] + next.second;
                     if (alt_dist < dist[next.first] && junctions_so_far[curr.second] + 1 <= k) {
                         junctions_so_far[next.first] = junctions_so_far[curr.second] + 1;
@@ -73,10 +68,6 @@ auto main() -> int {
                 }
             }
 
-            for (int d : dist) {
-                cout << d << " ";
-            }
-
             current_answers.push_back((junctions_so_far[t] <= k && dist[t] < numeric_limits<int>::max()) ? dist[t] : -1);
         }
 
@@ -85,7 +76,7 @@ auto main() -> int {
 
     for (int i = 0; i < answers.size(); i++) {
         for (int ans : answers[i]) {
-            cout << ans << "\n";
+            cout << to_string(ans) << "\n";
         }
 
         if (i != answers.size() - 1) {
