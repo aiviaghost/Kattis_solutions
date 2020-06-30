@@ -11,8 +11,8 @@ void dfs(int &curr, unordered_map<int, vector<pii>> &adj, unordered_set<int> &vi
 
     vis.emplace(curr);
 
-    for (pii v : adj[curr]) {
-        dfs(v.first, adj, vis);    
+    for (pii next : adj[curr]) {
+        dfs(next.first, adj, vis);    
     }
 }
 
@@ -38,14 +38,14 @@ auto main() -> int {
         dist[s] = 0;
         priority_queue<pii, vector<pii>, greater<pii>> pq;
         pq.push({0, s});
-        unordered_set<int> in_q;
-        in_q.emplace(s);
+        unordered_set<int> in_pq;
+        in_pq.emplace(s);
         vector<int> visits(n);
         
         while (!pq.empty()) {
             pii curr = pq.top();
             pq.pop();
-            in_q.erase(curr.second);
+            in_pq.erase(curr.second);
             visits[curr.second] += 1;
 
             if (visits[curr.second] < n) {
@@ -53,9 +53,9 @@ auto main() -> int {
                     int alt_dist = dist[curr.second] + next.second;
                     if (alt_dist < dist[next.first]) {
                         dist[next.first] = alt_dist;
-                        if (in_q.find(next.first) == in_q.end()) {
+                        if (in_pq.find(next.first) == in_pq.end()) {
                             pq.push({dist[next.first], next.first});
-                            in_q.emplace(next.first);
+                            in_pq.emplace(next.first);
                         }
                     }
                 }
