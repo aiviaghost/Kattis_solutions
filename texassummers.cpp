@@ -9,7 +9,7 @@ auto get_dist(int x1, int y1, int x2, int y2) -> int {
 }
 
 auto main() -> int {
-    // cin.tie(0)->sync_with_stdio(0);
+    cin.tie(0)->sync_with_stdio(0);
 
     int n;
     cin >> n;
@@ -30,7 +30,9 @@ auto main() -> int {
     unordered_map<int, vector<pii>> adj;
     for (int i = 0; i < n + 1; i++) {
         for (int j = i + 1; j < n + 2; j++) {
-            adj[i].push_back({j, get_dist(coords[i].first, coords[i].second, coords[j].first, coords[j].second)});
+            int w = get_dist(coords[i].first, coords[i].second, coords[j].first, coords[j].second);
+            adj[i].push_back({j, w});
+            adj[j].push_back({i, w});
         }
     }
 
@@ -55,7 +57,6 @@ auto main() -> int {
         for (pii next : adj[curr.second]) {
             int alt_dist = dist[curr.second] + next.second;
             if (alt_dist < dist[next.first]) {
-                cout << (curr.second - 1) << " -> " << (next.first - 1) << " is faster\n";
                 parents[next.first] = curr.second;
                 dist[next.first] = alt_dist;
                 pq.push({dist[next.first], next.first});
