@@ -57,7 +57,10 @@ auto main() -> int {
 
                 for (auto next : adj[curr.second]) {
                     int alt_dist = dist[curr.second] + next.second;
-                    if (alt_dist < dist[next.first] && junctions_so_far[curr.second] + 1 <= k) {
+                    if (junctions_so_far[curr.second] + 1 > k) {
+                        continue;
+                    }
+                    else if (alt_dist < dist[next.first]) {
                         junctions_so_far[next.first] = junctions_so_far[curr.second] + 1;
                         dist[next.first] = alt_dist;
                         pq.push({dist[next.first], next.first});
