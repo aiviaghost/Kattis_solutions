@@ -3,7 +3,8 @@
         "iosfwd": "cpp",
         "*.tcc": "cpp",
         "iomanip": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "vector": "cpp"
     },
     "python.pythonPath": "C:\\Users\\Admin\\AppData\\Local\\Programs\\Python\\Python38\\python.exe"
 }
