@@ -23,6 +23,4 @@ for n in stdin:
     if len(subset) == 0:
         stdout.write("{ }\n")
     else:
-        stdout.write("{ ")
-        stdout.write(", ".join([str(i) for i in subset]))
-        stdout.write(" }\n")
+        stdout.write("{ " + ", ".join([str(i) for i in subset]) + " }\n")
