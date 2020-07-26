@@ -6,7 +6,6 @@ int number_containing = 0;
 
 struct Node {
     Node* children[26];
-    bool is_end = false;
     int freq = 0;
     
     Node() {
@@ -14,17 +13,14 @@ struct Node {
     }
 };
 
-auto insert(Node* trie, const char* word) -> void {
-    if (*word) {
-        if (!trie->children[*word - 'a']) { // subtracting ascii 'a' converts characters a-z to ints 0-25
-            trie->children[*word - 'a'] = new Node();
+auto insert(Node* trie, const string& word) -> void {
+    for (char c : word) {
+        if (!trie->children[c - 'a']) {
+            trie->children[c - 'a'] = new Node();
         }
-        insert(trie->children[*word - 'a'], word + 1); // word is a char-pointer so (word + 1) is the next char in the string
+        trie = trie->children[c - 'a'];
     }
-    else {
-        trie->freq++;
-        trie->is_end = true; // end of word
-    }
+    trie->freq++;
 }
 
 auto contains(Node* trie, const char* word) -> void {
@@ -35,9 +31,7 @@ auto contains(Node* trie, const char* word) -> void {
         contains(trie->children[*word - 'a'], word + 1);
     }
     else {
-        if (trie->is_end) {
-            number_containing += trie->freq;
-        }
+        number_containing += trie->freq;
         
         for (int i = 0; i < 26; i++) {
             if (trie->children[i]) {
@@ -65,6 +59,7 @@ auto main() -> int {
         cout << number_containing << "\n";
         number_containing = 0;
 
-        insert(trie, word.c_str());
+        insert(trie, word);
     }
 }
+
