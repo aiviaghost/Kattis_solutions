@@ -2,7 +2,8 @@
 
 using namespace std;
 
-const int INF = 1e9;
+#define INF 1e9
+
 vector<string> neighbours;
 
 struct Node {
@@ -19,21 +20,12 @@ struct Node {
 
 auto insert(Node* trie, const char* word, const string& full_word) -> void {
     if (*word) {
-        if (!trie->is_root) {   
-            trie->has_letter = true;
-            trie->letter = *word;
-        }
-
         if (!trie->children[*word - 'a']) {
             trie->children[*word - 'a'] = new Node(false);
+            trie->children[*word - 'a']->has_letter = true;
+            trie->children[*word - 'a']->letter = *word;
         }
-
-        if (trie->is_root) {
-            insert(trie->children[*word - 'a'], word, full_word);
-        }
-        else {
-            insert(trie->children[*word - 'a'], word + 1, full_word);
-        }
+        insert(trie->children[*word - 'a'], word + 1, full_word);
     }
     else {
         trie->is_end = true;
@@ -41,30 +33,39 @@ auto insert(Node* trie, const char* word, const string& full_word) -> void {
     }
 }
 
-auto get_neighbours(Node* trie, const char* word, int diff_so_far = 0) -> void {
-    cout << "actual: " << *word << " diff: " << trie->letter << ", diff so far: " << diff_so_far << "\n";
-    if (*word) {
-        if (trie->has_letter && trie->letter != *word) {
+auto get_neighbours(Node* trie, const string& word, int index, int diff_so_far) -> void {
+    if (!trie->is_root) {
+        if (trie->has_letter && trie->letter != word[index]) {
             diff_so_far++;
         }
 
+        // cout << "seach letter: " << word[index] << ", trie-letter: " << trie->letter << ", diff so far: " << diff_so_far << "\n";
+
+        if (diff_so_far > 1) {
+            // cout << "invalid!\n";
+            return;
+        }
+
+        if (trie->is_end && diff_so_far == 1) {
+            // cout << trie->full_word << " is valid!\n";
+            neighbours.push_back(trie->full_word);
+            return;
+        }
+
+        index++;
+
         for (int i = 0; i < 26; i++) {
             if (trie->children[i]) {
-                if (trie->is_root) {
-                    get_neighbours(trie->children[i], word, diff_so_far);
-                }
-                else {
-                    get_neighbours(trie->children[i], word + 1, diff_so_far);
-                }
+                get_neighbours(trie->children[i], word, index, diff_so_far);
             }
         }
     }
-    else if (trie->is_end && diff_so_far == 1) {
-        cout << trie->full_word << " is valid!\n";
-        neighbours.push_back(trie->full_word);
-    }
     else {
-        cout << "not valid!\n";
+        for (int i = 0; i < 26; i++) {
+            if (trie->children[i]) {
+                get_neighbours(trie->children[i], word, index, diff_so_far);
+            }
+        } 
     }
 }
 
@@ -83,7 +84,7 @@ auto contains(Node* trie, const char* word) -> bool {
 */
 
 auto main() -> int {
-    // cin.tie(0)->sync_with_stdio(0);
+    cin.tie(0)->sync_with_stdio(0);
 
     Node* trie = new Node(true);
 
@@ -92,7 +93,7 @@ auto main() -> int {
         insert(trie, word.c_str(), word);
     }
     /*
-    cout << "root: " << trie->letter << "\n";
+    cout << "root: " << (trie->has_letter ? "yes" : "no") << "\n";
     for (int i = 0; i < 26; i++) {
         if (trie->children[i]) {
             cout << "children of root: " << trie->children[i]->letter << "\n";
@@ -101,7 +102,13 @@ auto main() -> int {
     */
     // query each pair:
     string query;
+    int t = 0;
     while (getline(cin, query)) {
+        if (t != 0) {
+            cout << "\n";
+        }
+        t++;
+
         string s1 = query.substr(0, query.find(' ')), s2 = query.substr(query.find(' ') + 1);
 
         /*
@@ -124,8 +131,8 @@ auto main() -> int {
             vector<string> next_layer;
             for (string c : curr_layer) {
                 neighbours.clear();
-                cout << "search: " << c << "\n";
-                get_neighbours(trie, c.c_str());
+                // cout << "search: " << c << "\n";
+                get_neighbours(trie, c.c_str(), 0, 0);
                 for (string n : neighbours) {
                     if (vis.find(n) == vis.end()) {
                         parents[n] = c;
@@ -137,11 +144,11 @@ auto main() -> int {
             }
             curr_layer = next_layer;
         }
-        
+        /*
         for (auto itr = dist.begin(); itr != dist.end(); itr++) {
             cout << "dist: " << itr->first << " " << itr->second << "\n";
         }
-        
+        */
         if (dist[s2] != INF) {
             vector<string> path;
             string parent = parents[s2];
@@ -151,7 +158,7 @@ auto main() -> int {
             }
 
             cout << s1 << "\n";
-            for (int i = path.size() - 1; i >= 0; i++) {
+            for (int i = path.size() - 1; i >= 0; i--) {
                 cout << path[i] << "\n";
             }
             cout << s2 << "\n";
