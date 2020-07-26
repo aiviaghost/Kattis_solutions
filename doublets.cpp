@@ -33,13 +33,17 @@ auto insert(Node* trie, const char* word, const string& full_word) -> void {
     }
 }
 
-auto get_neighbours(Node* trie, const string& word, int index, int diff_so_far) -> void {
+auto get_neighbours(Node* trie, const string& word, int index = 0, int diff_so_far = 0) -> void {
     if (!trie->is_root) {
+        if (index >= word.length()) {
+            return;
+        }
+
         if (trie->has_letter && trie->letter != word[index]) {
             diff_so_far++;
         }
 
-        // cout << "seach letter: " << word[index] << ", trie-letter: " << trie->letter << ", diff so far: " << diff_so_far << "\n";
+        // cout << "searhech letter: " << word[index] << ", trie-letter: " << trie->letter << ", diff so far: " << diff_so_far << "\n";
 
         if (diff_so_far > 1) {
             // cout << "invalid!\n";
@@ -132,7 +136,7 @@ auto main() -> int {
             for (string c : curr_layer) {
                 neighbours.clear();
                 // cout << "search: " << c << "\n";
-                get_neighbours(trie, c.c_str(), 0, 0);
+                get_neighbours(trie, c.c_str());
                 for (string n : neighbours) {
                     if (vis.find(n) == vis.end()) {
                         parents[n] = c;
