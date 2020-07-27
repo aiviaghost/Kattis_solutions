@@ -50,7 +50,7 @@ auto get_neighbours(Node* trie, const string& word, int index = 0, int diff_so_f
             return;
         }
 
-        if (trie->is_end && diff_so_far == 1) {
+        if (trie->is_end && diff_so_far == 1 && trie->full_word.length() == word.length()) {
             // cout << trie->full_word << " is valid!\n";
             neighbours.push_back(trie->full_word);
             return;
@@ -73,20 +73,6 @@ auto get_neighbours(Node* trie, const string& word, int index = 0, int diff_so_f
     }
 }
 
-/*
-auto contains(Node* trie, const char* word) -> bool {
-    if (*word) {
-        if (!trie->children[*word - 'a']) {
-            return false;
-        }
-        return contains(trie->children[*word - 'a'], word + 1);
-    }
-    else {
-        return trie->is_end;
-    }
-}
-*/
-
 auto main() -> int {
     cin.tie(0)->sync_with_stdio(0);
 
@@ -96,15 +82,7 @@ auto main() -> int {
     while (getline(cin, word) && word != "") {
         insert(trie, word.c_str(), word);
     }
-    /*
-    cout << "root: " << (trie->has_letter ? "yes" : "no") << "\n";
-    for (int i = 0; i < 26; i++) {
-        if (trie->children[i]) {
-            cout << "children of root: " << trie->children[i]->letter << "\n";
-        }
-    }
-    */
-    // query each pair:
+    
     string query;
     int t = 0;
     while (getline(cin, query)) {
@@ -136,7 +114,14 @@ auto main() -> int {
             for (string c : curr_layer) {
                 neighbours.clear();
                 // cout << "search: " << c << "\n";
-                get_neighbours(trie, c.c_str());
+                get_neighbours(trie, c);
+                /*
+                cout << neighbours.size() << "\n";
+                for (string ne : neighbours) {
+                    cout << ne << " ";
+                }
+                cout << "\n";
+                */
                 for (string n : neighbours) {
                     if (vis.find(n) == vis.end()) {
                         parents[n] = c;
@@ -148,11 +133,13 @@ auto main() -> int {
             }
             curr_layer = next_layer;
         }
+
         /*
         for (auto itr = dist.begin(); itr != dist.end(); itr++) {
             cout << "dist: " << itr->first << " " << itr->second << "\n";
         }
         */
+
         if (dist[s2] != INF) {
             vector<string> path;
             string parent = parents[s2];
