@@ -15,8 +15,11 @@ struct edge_weight_comparator {
 };
 
 struct node_comparator {
-    inline bool operator() (const pii &n1, const pii &n2) {
-        return n1.first < n2.first;
+    inline bool operator() (const pii &e1, const pii &e2) {
+        if (e1.first == e2.first) { // e1 = (1, 3), e2 = (1, 2) => e2, e1 since 2 < 3
+            return e1.second < e2.second;
+        }
+        return e1.first < e2.first;
     }
 };
 
@@ -70,7 +73,7 @@ auto main() -> int {
         for (int i = 0; i < m; i++) {
             int u, v, w;
             cin >> u >> v >> w;
-            edges[i] = {u, v, w};
+            edges[i] = {min(u, v), max(u, v), w};
         }
         sort(edges.begin(), edges.end(), edge_weight_comparator());
 
@@ -79,7 +82,7 @@ auto main() -> int {
         int cost = 0;
         for (edge e : edges) {
             if (UF.Find(e.u) != UF.Find(e.v)) {
-                mst.push_back({min(e.u, e.v), max(e.u, e.v)});
+                mst.push_back({e.u, e.v});
                 cost += e.w;
                 UF.Union(e.u, e.v);
             }
