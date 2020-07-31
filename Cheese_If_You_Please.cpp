@@ -30,15 +30,6 @@ int main() {
         tableau[i][m + i] = 1.0;
     }
 
-    
-    for (int i = 0; i < n + 1; i++) {
-        for (int j = 0; j < var_count + 1; j++) {
-            cout << tableau[i][j] << " ";
-        }
-        cout << "\n";
-    }
-
-
     auto is_optimal = [&] () {
         for (int i = 0; i < var_count; i++) {
             if (tableau[n][i] < 0) {
@@ -63,15 +54,12 @@ int main() {
             if (tableau[i][pivot_column] > 0) {
                 double temp_q = tableau[i][var_count] / tableau[i][pivot_column];
 
-                if (0 < temp_q && temp_q < min_q) {
+                if (0 <= temp_q && temp_q < min_q) {
                     min_q = temp_q;
                     pivot_row = i;
                 }
             }
         }
-
-        // update basic variable row-index
-        // map.at(pivot_column) = pivot_row;
 
         // gauss elimination
         double pivot_val = tableau[pivot_row][pivot_column];
@@ -90,15 +78,6 @@ int main() {
     }
 
     cout << tableau[n][var_count] << "\n";
-
-
-   for (int i = 0; i < n + 1; i++) {
-        for (int j = 0; j < var_count + 1; j++) {
-            cout << tableau[i][j] << " ";
-        }
-        cout << "\n";
-    }
-
 
     return 0;
 }
