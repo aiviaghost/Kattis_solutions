@@ -4,7 +4,7 @@ using namespace std;
 
 /*
 * Since solutions lie on the intersections formed by the inequalities
-* we can algebraically find the intersections and simple test all (at most 4)
+* we can algebraically find the intersections and simply test all (at most 4)
 * to find the maximal value
 */
 
