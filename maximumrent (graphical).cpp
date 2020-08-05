@@ -2,6 +2,12 @@
 
 using namespace std;
 
+/*
+* Since solutions lie on the intersections formed by the inequalities
+* we can algebraically find the intersections and simple test all (at most 4)
+* to find the maximal value
+*/
+
 using pdd = pair<double, double>;
 
 auto main() -> int {
