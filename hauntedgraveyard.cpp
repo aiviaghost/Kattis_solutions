@@ -6,7 +6,7 @@ using namespace std;
 
 using pii = pair<int, int>;
 
-int w, h;
+int w, h, V;
 pii neighbours[] = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
 struct cell {
@@ -15,7 +15,7 @@ struct cell {
     pii to_cell;
 };
 
-auto is_inside(int x, int y) -> bool {
+auto is_inside(int &x, int &y) -> bool {
     return 0 <= x && x < w && 0 <= y && y < h;
 }
 
@@ -38,7 +38,7 @@ auto dfs(vector<vector<cell>> &grid, unordered_set<int> &vis, int curr) -> void 
             continue;
         }
 
-        while (grid[ny][nx].is_haunted_hole) {
+        if (grid[ny][nx].is_haunted_hole) {
             int tx = nx;
             nx = grid[ny][nx].to_cell.first;
             ny = grid[ny][tx].to_cell.second;
@@ -47,18 +47,12 @@ auto dfs(vector<vector<cell>> &grid, unordered_set<int> &vis, int curr) -> void 
         dfs(grid, vis, next);
     }
 }
-/*
-void printq(priority_queue<pii, vector<pii>, greater<pii>> pq) {
-    while (!pq.empty()) {
-        cout << pq.top().second << " ";
-        pq.pop();
-    }
-}
-*/
+
 auto main() -> int {
     cin.tie(0)->sync_with_stdio(0);
 
     while (cin >> w >> h && (w != 0 || h != 0)) {
+        V = w * h;
         vector<vector<cell>> grid(h, vector<cell>(w));
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < w; j++) {
@@ -85,26 +79,27 @@ auto main() -> int {
         }
 
         // calculate all final positions of haunted holes:
-        /*
+        int temp_vis[h][w];
+        memset(temp_vis, 0, sizeof(temp_vis));
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < w; j++) {
                 if (grid[i][j].is_haunted_hole) {
                     int nx = j, ny = i, new_t = 0;
-                    while (grid[i][j].is_haunted_hole) {
+                    while (grid[ny][nx].is_haunted_hole && temp_vis[ny][nx] < V) {
+                        temp_vis[ny][nx]++;
                         new_t += grid[ny][nx].dt;
-                        int nx = grid[ny][nx].to_cell.first;
-                        int ny = grid[ny][nx].to_cell.second;
+                        int tx = nx;
+                        nx = grid[ny][nx].to_cell.first;
+                        ny = grid[ny][tx].to_cell.second;
                     }
                     grid[i][j].to_cell = {nx, ny};
                     grid[i][j].dt = new_t;
                 }
             }
         }
-        */
+        
         int vis_count[h][w];
-        for (int i = 0; i < h; i++) {
-            memset(vis_count[i], 0, sizeof(vis_count[i]));
-        }
+        memset(vis_count, 0, sizeof(vis_count));
         vector<vector<int>> time(h, vector<int>(w, INF));
         time[0][0] = 0;
         priority_queue<pii, vector<pii>, greater<pii>> pq;
@@ -116,32 +111,27 @@ auto main() -> int {
             pq.pop();
             in_pq.erase(curr.second);
             int cx = curr.second % w, cy = (curr.second - cx) / w;
-            // cout << "curr: " << curr.second << " " << cx << " " << cy << endl;
+            
             vis_count[cy][cx] += 1;
-            // cout << "count: " << vis_count[cy][cx] << endl;
-            if (vis_count[cy][cx] < w * h) {
+            if (vis_count[cy][cx] < V) {
                 for (pii next : neighbours) {
                     int nx = cx + next.first, ny = cy + next.second;
-                    // cout << "init: " << nx << " " << ny << endl;
+                    
                     if (!is_inside(nx, ny)) {
-                        // cout << "out: " << nx << " " << ny << endl;
                         continue;
                     }
 
                     if (grid[ny][nx].is_gravestone) {
-                        // cout << "grave: " << nx << " " << ny << endl;
                         continue;
                     }
-                    // cout << "c1: " << nx << " " << ny << endl;
+                    
                     int new_t = 1;
-                    while (grid[ny][nx].is_haunted_hole) { // travel to final exit of haunted hole
+                    if (grid[ny][nx].is_haunted_hole) { // travel to final exit of haunted hole
                         new_t += grid[ny][nx].dt;
                         int tx = nx;
                         nx = grid[ny][nx].to_cell.first;
                         ny = grid[ny][tx].to_cell.second;
-                        // cout << "c2: " << nx << " " << ny << endl;
                     }
-                    // cout << "c3 " << nx << " " << ny << "\n";
                     
                     int alt_time = time[cy][cx] + new_t;
                     if (alt_time < time[ny][nx]) {
@@ -151,25 +141,14 @@ auto main() -> int {
                             in_pq.emplace(grid[ny][nx].id);
                         }
                     }
-                }/*
-                cout << "next: \n";
-                printq(pq);
-                cout << endl;
-                cout << "new times: \n";
-                for (int i = 0; i < h; i++) {
-                    for (int j = 0; j < w; j++) {
-                        cout << time[i][j] << " ";
-                    }
-                    cout << "\n";
                 }
-                cout << "\n";*/
             }
         }
         
         unordered_set<int> vis;
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < w; j++) {
-                if (vis_count[i][j] == w * h) {
+                if (vis_count[i][j] == V) {
                     dfs(grid, vis, i * w + j);
                 }
             }
