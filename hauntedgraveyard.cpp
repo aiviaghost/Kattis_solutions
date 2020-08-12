@@ -48,13 +48,13 @@ auto dfs(vector<vector<cell>> &grid, unordered_set<int> &vis, int curr) -> void 
 }
 
 auto main() -> int {
-    // cin.tie(0)->sync_with_stdio(0);
+    cin.tie(0)->sync_with_stdio(0);
 
     while (cin >> w >> h && (w != 0 || h != 0)) {
         vector<vector<cell>> grid(h, vector<cell>(w));
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < w; j++) {
-                grid[i][j] = {w * i + j, 1, false, false, {-1, -1}};
+                grid[i][j] = {w * i + j, 1, false, false};
             }
         }
 
@@ -96,7 +96,7 @@ auto main() -> int {
             if (vis_count[cy][cx] < w * h) {
                 for (pii next : neighbours) {
                     int nx = cx + next.first, ny = cy + next.second;
-                    
+
                     if (!is_inside(nx, ny)) {
                         continue;
                     }
@@ -104,13 +104,15 @@ auto main() -> int {
                     if (grid[ny][nx].is_gravestone) {
                         continue;
                     }
-
+                    // cout << "c1: " << nx << " " << ny << endl;
                     int new_t = (grid[ny][nx].is_haunted_hole ? 0 : 1);
                     while (grid[ny][nx].is_haunted_hole) { // travel to final exit of haunted hole 
                         new_t += grid[ny][nx].dt;
                         nx = grid[ny][nx].to_cell.first;
                         ny = grid[ny][nx].to_cell.second;
+                        // cout << "c2: " << nx << " " << ny << endl;
                     }
+                    
                     int alt_time = time[cy][cx] + new_t;
                     if (alt_time < time[ny][nx]) {
                         time[ny][nx] = alt_time;
