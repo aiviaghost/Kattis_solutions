@@ -10,7 +10,7 @@ def digits(n):
     return floor(0.5 * log10(2 * pi * n) + n * log10(n / e))
 
 # binary-search
-l, r, mid = 0, 1e60, -1
+l, r, mid = 0, float(210000), -1
 while (abs(l - r) > 0):
     mid = l + (r - l) // 2
     if (digits(mid) < len_fac):
