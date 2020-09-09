@@ -61,7 +61,7 @@ auto main() -> int {
     vector<pii> curr_layer{{sx, sy}};
     while (!curr_layer.empty()) {
         vector<pii> next_layer;
-        for (pii curr : curr_layer) {
+        for (pii curr : curr_layer) { // much easier to do one "layer" at a time using two vectors instead of a queue
             if (grid[curr.second][curr.first] == '*') {
                 continue;
             }
