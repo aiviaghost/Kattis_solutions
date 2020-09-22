@@ -18,8 +18,8 @@ auto main() -> int {
         cin >> cost[i];
     }
 
-    int sum[n][n - 1];
-    memset(sum, -1, 4 * n * (n - 1));
+    int sum[n][n];
+    memset(sum, -1, 4 * n * n);
     sum[0][0] = 0;
     sum[1][1] = cost[1];
     priority_queue<pair<int, pii>, vector<pair<int, pii>>, greater<pair<int, pii>>> q;
@@ -39,7 +39,7 @@ auto main() -> int {
     }
 
     int min_cost = INF;
-    for (int i = 0; i < n - 1; i++) {
+    for (int i = 0; i < n; i++) {
         min_cost = sum[n - 1][i] != -1 ? min(sum[n - 1][i], min_cost) : min_cost;
     }
     cout << min_cost << "\n";
