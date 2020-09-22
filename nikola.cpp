@@ -20,7 +20,6 @@ auto main() -> int {
 
     int sum[n][n];
     memset(sum, -1, 4 * n * n);
-    sum[0][0] = 0;
     sum[1][1] = cost[1];
     priority_queue<pair<int, pii>, vector<pair<int, pii>>, greater<pair<int, pii>>> q;
     q.push({cost[1], {1, 1}});
