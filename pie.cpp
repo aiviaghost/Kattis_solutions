@@ -58,7 +58,6 @@ auto main() -> int {
         while (rb - lb > 1e-6) {
             mid = (lb + rb) / 2.0;
             double pie_left = eat_pie(f, pies, mid);
-            // cout << "lb: " << lb << ", rb: " << rb << ", mid: " << mid << ", leftover: " << pie_left << endl;
             if (pie_left > 0) {
                 lb = mid;
             }
