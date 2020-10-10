@@ -49,7 +49,7 @@ auto main() -> int {
 
     int p, t;
     cin >> p >> t;
-    set<int> ps[p];
+    unordered_set<int> ps[p];
     Union_Find UF(p);
     int pi, tj;
     while (cin >> pi >> tj) {
