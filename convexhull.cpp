@@ -53,7 +53,7 @@ auto get_convex_hull(vector<pii> &points) -> vector<pii> {
     reverse(upper_hull.begin(), upper_hull.end());
 
     if (upper_hull.front() == upper_hull.back()) {
-        return {upper_hull.begin() + 1, upper_hull.end()};
+        upper_hull.erase(upper_hull.begin());
     }
     return upper_hull;
 }
