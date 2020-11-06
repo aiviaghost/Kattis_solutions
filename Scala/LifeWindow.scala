@@ -84,7 +84,7 @@ class LifeWindow(rows: Int, cols: Int, is_multi_color: Boolean){
     }
 
     def handleClick(pos: (Int, Int)): Unit = {
-        update(life.toggled((pos._2 / blockSize).toInt, (pos._1 / blockSize).toInt))
+        update(life.toggled(pos._2 / blockSize, pos._1 / blockSize))
     }
 
     def loopUntilQuit(): Unit = while (!quit) {
