@@ -4,6 +4,13 @@
         "*.tcc": "cpp",
         "iomanip": "cpp",
         "iostream": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "bitset": "cpp",
+        "cmath": "cpp",
+        "complex": "cpp",
+        "ostream": "cpp"
+    },
+    "files.watcherExclude": {
+        "**/target": true
     }
 }
