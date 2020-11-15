@@ -8,22 +8,26 @@ using ll = long long;
 using pii = pair<int, int>;
 using pdd = pair<double, double>;
 
-vector<vector<int>> codes;
+vector<vector<int>> codes[15];
 
-auto generate_codes(vector<int> code, int index = 0) -> void {
-    if (index < code.size()) {
-        generate_codes(code, index + 1);
-        code[index] = 1;
-        generate_codes(code, index + 1);
-    }
-    else {
-        codes.push_back(code);
+auto generate_codes(vector<int> code) -> void {
+    if (code.size() < 15) {
+        vector<int> temp = code;
+        code.push_back(0);
+        codes[code.size()].push_back(code);
+        generate_codes(code);
+        temp.push_back(1);
+        codes[temp.size()].push_back(temp);
+        generate_codes(temp);
     }
 }
 
 auto main() -> int {
     cin.tie(0)->sync_with_stdio(0);
 
+    vector<int> zero_code;
+    generate_codes(zero_code);
+    
     int T;
     cin >> T;
     while (T--) {
@@ -36,12 +40,9 @@ auto main() -> int {
             }
         }
 
-        vector<int> zero_code(k);
-        generate_codes(zero_code);
-
         int min_dist = INF;
-        for (int index = 1; index < codes.size(); index++) {
-            vector<int> &code = codes[index];
+        for (int index = 1; index < codes[k].size(); index++) {
+            vector<int> &code = codes[k][index];
             int res[n];
 
             for (int i = 0; i < n; i++) {
@@ -62,7 +63,5 @@ auto main() -> int {
         }
 
         cout << min_dist << "\n";
-
-        codes.clear();
     }
 }
