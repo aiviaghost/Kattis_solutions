@@ -27,14 +27,13 @@ auto main() -> int {
 
     string s;
     cin >> s;
-    reverse(s.begin(), s.end());
 
     pair<ll, ll> prefix_sum[s.length()];
     for (int i = 1; i < s.length(); i++) {
         prefix_sum[i].first += prefix_sum[i - 1].first;
         prefix_sum[i].second += prefix_sum[i - 1].second;
 
-        if (s[i - 1] == '1') {
+        if (s[i - 1] == '0') {
             prefix_sum[i].first++;
         }
         else if (s[i - 1] == '?') {
@@ -44,7 +43,7 @@ auto main() -> int {
 
     ll inversions = 0;
     for (ll i = 1; i < s.length(); i++) {
-        if (s[i] == '?' || s[i] == '1') {
+        if (s[i] == '?' || s[i] == '0') {
             if (s[i] == '?') inversions = (2 * inversions) % MOD;
             if (prefix_sum[i].second > 0) {
                 ll d = i - prefix_sum[i].first;
