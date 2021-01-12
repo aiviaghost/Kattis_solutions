@@ -11,13 +11,8 @@ const int INF = 2e9;
 vector<vector<pair<int, double>>> adj;
 vector<int> times_visited, ms, parents_to_node;
 vector<double> I, U;
-vector<bool> finished;
 
 auto dfs(int curr, double recieved) -> void {
-    if (finished[curr]) {
-        return;
-    }
-
     I[curr] += recieved;
     times_visited[curr]++;
 
@@ -26,7 +21,6 @@ auto dfs(int curr, double recieved) -> void {
     }
     
     U[curr] = min(I[curr], (double) ms[curr]);
-    finished[curr] = true;
 
     for (pair<int, double> p : adj[curr]) {
         dfs(p.first, U[curr] * p.second);
@@ -45,7 +39,6 @@ auto main() -> int {
     times_visited.resize(n);
     I.resize(n);
     U.resize(n);
-    finished.resize(n);
 
     for (int i = 0; i < n; i++) {
         int m, k;
