@@ -18,15 +18,12 @@ public class appallingarchitecture {
 			blueprint[i] = scan.nextLine();
 		}
 		
-		int leftmost = INF, rightmost = -1;
-		int[] psum = new int[w];
+		double cgw = 0, tot_w = 0, leftmost = INF, rightmost = -1;
 		for (int i = 0; i < w; i++) {
-			if (i >= 1) {
-				psum[i] = psum[i - 1];
-			}
+			double cw = 0;
 			for (int j = 0; j < h; j++) {
 				if (blueprint[j].charAt(i) != '.') {
-					psum[i]++;
+					cw++;
 					
 					if (j == h - 1) {
 						leftmost = Math.min(i, leftmost);
@@ -34,16 +31,13 @@ public class appallingarchitecture {
 					}
 				}
 			}
+			tot_w += cw;
+			cgw += cw * (i + 0.5);
 		}
-		rightmost++; // if we imagine each cell as an infinitely rectangles with height = 1 and width = dx then the rightmost support of the building is the rightmost dx-slice of the rightmost cell
+		rightmost++;
+		double mid = cgw / tot_w;
 		
-		double lb = 0, rb = w + 1, mid = -1;
-		while (rb - lb > 0) {
-			mid = (lb + rb) / 2.0;
-			
-		}
-		
-		if (leftmost < mid && mid < rightmost) {
+		if (leftmost < mid + 1e-12 && mid - 1e-12 < rightmost) {
 			System.out.println("balanced");
 		}
 		else if (mid < leftmost) {
