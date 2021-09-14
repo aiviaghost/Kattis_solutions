@@ -15,27 +15,24 @@ template <typename T, typename... Args> auto make(T init, size_t first, Args... 
 const int INF = 2e9;
 const int MOD = 1e9 + 7;
 
-void can_reach_cycle(
+bool can_reach_cycle(
         unordered_map<string, vector<string>>& adj, 
-        unordered_set<string>& gvis, 
-        unordered_set<string>& lvis, 
-        unordered_map<string, bool>& is_safe, 
+        unordered_set<string>& vis, 
+        unordered_map<string, int>& is_safe, 
         string curr
     ) {
-    if (gvis.find(curr) != gvis.end()) {
-        return;
-    }
-    gvis.emplace(curr);
-    lvis.emplace(curr);
-    for (string next : adj[curr]) {
-        if (lvis.find(next) != lvis.end()) {
-            is_safe[curr] = true;
-        }
-        else {
-            can_reach_cycle(adj, gvis, lvis, is_safe, next);
-            is_safe[curr] = is_safe[next];
-        }
-    }
+	if (is_safe[curr] != -1) {
+		return is_safe[curr] == 1;
+	}
+	vis.emplace(curr);
+	for (string next : adj[curr]) {
+		if (vis.find(next) != vis.end() || can_reach_cycle(adj, vis, is_safe, next)) {
+			is_safe[curr] = 1;
+			return true;
+		}
+	}
+	is_safe[curr] = 0;
+	return false;
 }
 
 auto main() -> int {
@@ -52,17 +49,19 @@ auto main() -> int {
         adj[o].push_back(d);
         cities.insert({o, d});
     }
-    unordered_map<string, bool> is_safe;
+    unordered_map<string, int> is_safe;
     for (string city : cities) {
-        is_safe[city] = false;
+        is_safe[city] = -1;
     }
-    unordered_set<string> gvis;
     for (string city : cities) {
-        unordered_set<string> lvis;
-        can_reach_cycle(adj, gvis, lvis, is_safe, city);
+        if (is_safe[city] == -1) {
+            unordered_set<string> vis;
+            can_reach_cycle(adj, vis, is_safe, city);
+        }
     }
     string q;
     while (cin >> q) {
-        cout << q << " " << (is_safe[q] ? "safe" : "trapped") << "\n";
+        cout << q << " " << (is_safe[q] == 1 ? "safe" : "trapped") << "\n";
     }
 }
+
