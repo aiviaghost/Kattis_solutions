@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.math.BigInteger;
-import java.util.ArrayList;
 
 public class hashing {
 
@@ -32,7 +31,7 @@ public class hashing {
 
 class Poly_Hash {
 
-    BigInteger b = new BigInteger("315646479"), P = new BigInteger("18446744073709551615");
+    BigInteger b = new BigInteger("31"), P = new BigInteger("18446744073709551615");
     BigInteger[] B, H;
 
     public Poly_Hash(String s) {
@@ -48,7 +47,7 @@ class Poly_Hash {
     }
 
     public BigInteger hash(int lb, int rb) {
-        return H[rb].subtract(H[lb].multiply(B[rb - lb]).mod(P)).add(P).mod(P);
+        return H[rb].subtract(H[lb].multiply(B[rb - lb]).mod(P)).mod(P);
     }
 
 }
