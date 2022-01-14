@@ -15,7 +15,10 @@ template <typename T, typename... Args> auto make(T init, size_t first, Args... 
 const int INF = 2e9;
 const int MOD = 1e9 + 7;
 
-double V(double r, double a, double b) {
+const double LEN = 1e5;
+const double EPS = 1e-6;
+
+inline double W(double r, double a, double b) {
     return M_PI * (r * r * (b - a) - ((b * b * b - a * a * a) / 3));
 }
 
@@ -29,33 +32,43 @@ auto main() -> int {
     for (int i = 0; i < n; i++) {
         double r, x, y, z;
         cin >> r >> x >> y >> z;
-        holes[i] = {x / 1000.0, r / 1000.0};
+        holes[i] = {z, r};
     }
-    sort(holes.begin(), holes.end());
-
-    vector<double> cuts;
-    auto use = [&](double w) {
-        cuts.clear();
-        int used = 0;
-
-        return used;
+    double total_hole_volume = 0;
+    for (pdd hole : holes) {
+        total_hole_volume += W(hole.second, -hole.second, hole.second);
+    }
+    auto tot_W = [&](double cut) {
+        double w = pow(LEN, 2) * cut;
+        for (pdd hole : holes) {
+            if (hole.first + hole.second < cut) {
+                w -= W(hole.second, -hole.second, hole.second);
+            }
+            else if (hole.first - hole.second < cut) {
+                w -= W(hole.second, -hole.second, cut - hole.first);
+            }
+        }
+        return w;
     };
-
-    double lb = 0, rb = 1e15 + 1;
-    while (rb - lb > 1e-7) {
-        double mid = lb + (rb - lb) / 2;
-        int used = use(mid);
-        if (used == s) {
-            break;
+    vector<double> cuts;
+    for (int i = 1; i < s; i++) {
+        double lb = 0, rb = LEN, mid;
+        while (rb - lb > EPS) {
+            mid = lb + (rb - lb) / 2;
+            double w = tot_W(mid);
+            if (w * s < (pow(LEN, 3) - total_hole_volume) * i) {
+                lb = mid;
+            }
+            else {
+                rb = mid;
+            }
         }
-        else if (used < s) {
-            rb = mid;
-        }
-        else {
-            lb = mid;
-        }
+        cuts.push_back(mid);
     }
+    double last_cut = 0;
     for (double cut : cuts) {
-        cout << cut << "\n";
+        cout << (cut - last_cut) / 1000.0 << "\n";
+        last_cut = cut;
     }
+    cout << (LEN - last_cut) / 1000.0 << "\n";
 }
