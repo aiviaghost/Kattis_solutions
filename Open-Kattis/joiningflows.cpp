@@ -27,21 +27,23 @@ auto main() -> int {
     for (int i = 0; i < k; i++) {
         cin >> get<0>(taps[i]) >> get<1>(taps[i]) >> get<2>(taps[i]);
     }
+    sort(taps.begin(), taps.end(), [&](Tap & a, Tap & b) {
+        return get<0>(a) < get<0>(b);
+    });
+    double mi_s = 0;
+    ll flow_s = 0;
+    for (auto [t, a, b] : taps) {
+        mi_s += t * a;
+        flow_s += a;
+    }
     int r;
     cin >> r;
     while (r--) {
         int temp_req, flow_req;
         cin >> temp_req >> flow_req;
         bool ok = true;
-        double mi = 0;
-        ll flow = 0;
-        for (auto [t, a, b] : taps) {
-            mi += t * a;
-            flow += a;
-        }
-        sort(taps.begin(), taps.end(), [&](Tap & a, Tap & b) {
-            return get<0>(a) < get<0>(b);
-        });
+        double mi = mi_s;
+        ll flow = flow_s;
         for (auto [t, a, b] : taps) {
             ll f = min(b - a, flow_req - flow);
             mi += t * f;
@@ -51,16 +53,10 @@ auto main() -> int {
         if (flow < flow_req || mi > temp_req) {
             ok = false;
         }
-        double ma = 0;
-        flow = 0;
-        for (auto [t, a, b] : taps) {
-            ma += t * a;
-            flow += a;
-        }
-        sort(taps.begin(), taps.end(), [&](Tap & a, Tap & b) {
-            return get<0>(a) > get<0>(b);
-        });
-        for (auto [t, a, b] : taps) {
+        double ma = mi_s;
+        flow = flow_s;
+        for (int i = k - 1; i >= 0; i--) {
+            auto [t, a, b] = taps[i];
             ll f = min(b - a, flow_req - flow);
             ma += t * f;
             flow += f;
