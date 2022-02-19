@@ -24,7 +24,7 @@ vector<bool> vis;
 unordered_map<int, pii> ccs;
 int current_color = 0;
 
-void dfs(int curr, int curr_depth = 1) {
+void dfs(int curr, int curr_depth = 0) {
     if (vis[curr]) {
         return;
     }
