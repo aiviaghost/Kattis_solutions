@@ -63,17 +63,17 @@ auto main() -> int {
         adj[a].push_back({b, dist + 100});
         adj[b].push_back({a, dist + 100});
     }
-    priority_queue<pair<string, double>, vector<pair<string, double>>, greater<pair<string, double>>> pq;
-    pq.push({start, 0});
+    priority_queue<pair<double, string>, vector<pair<double, string>>, greater<pair<double, string>>> pq;
+    pq.push({0, start});
     unordered_map<string, double> shame_map;
     while (!pq.empty()) {
-        auto [curr, shame] = pq.top();
+        auto [shame, curr] = pq.top();
         pq.pop();
         for (auto [next, added_shame] : adj[curr]) {
             double new_shame = shame + added_shame;
             if (!shame_map.count(next) || new_shame < shame_map[next]) {
                 shame_map[next] = new_shame;
-                pq.push({next, new_shame});
+                pq.push({new_shame, next});
             }
         }
     }
