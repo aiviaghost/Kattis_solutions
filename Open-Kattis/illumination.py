@@ -64,13 +64,17 @@ sat = Sat(k)
 !(a & b) = !a | !b
 horizontal = true
 vertical = false
+sat.add_or(2 * a, 2 * b) -> a | b
+sat.add_or(2 * a + 1, 2 * b + 1) -> !a | !b
+r1 == r2 -> same row -> at most one can be horizontal -> not both -> !(horizontal & horizontal) -> !(true & true) -> !true | !true -> false | false -> sat.add_or(2 * a + 1, 2 * b + 1)
+c1 == c2 -> same col -> at most one can be vertical -> not both -> !(vertical & vertical) -> !(false & false) -> !false | !false -> true | true -> sat.add_or(2 * a, 2 * b)
 """
 for i, r1, c1 in lamps:
     for j, r2, c2 in lamps:
         if i != j:
-            if r1 == r2 and abs(c1 - c2) <= 2 * r - 1: # same row -> at most one can be horizontal
+            if r1 == r2 and abs(c1 - c2) <= 2 * r - 1:
                 sat.add_or(2 * i + 1, 2 * j + 1)
-            elif c1 == c2 and abs(r1 - r2) <= 2 * r - 1: # same row -> at most one can be vertical
+            elif c1 == c2 and abs(r1 - r2) <= 2 * r - 1:
                 sat.add_or(2 * i, 2 * j)
 
 print(1 if sat.is_sat() else 0)
