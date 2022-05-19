@@ -1,13 +1,36 @@
-import lzma
-with open("/src/bin.txt", "rb") as f:
-	data = lzma.decompress(f.read()).split(b"\n")
-c = 255
-cc = bytes([c])
-out = [data[0]]
-for i in range(1, len(data)):
-    if data[i][0] == c:
-        rep = data[i][1] - 11
-        out.append(out[-1][ : rep] + data[i][2 : ])
-    else:
-    	out.append(data[i])
-print("\n".join(map(bytes.decode, out)))
+import gzip
+import bz2
+import re
+with open("bin.txt", "rb") as f:
+    T = bz2.decompress(
+            gzip.decompress(
+                f.read()
+            )
+        ).decode()
+sub1 = re.sub(
+    pattern = "[a-zA-Z']",
+    repl = lambda x: '"' + x.group() + '":',
+    string = T
+)
+sub2 = re.sub(
+    pattern = ":}",
+    repl = ":{" + "}" + "}",
+    string = sub1
+)
+sub3 = re.sub(
+    pattern = ":,",
+    repl = ":{" + "},",
+    string = sub2
+)
+di = eval(sub3)
+words = []
+def dfs(di, curr):
+    if len(di) == 0:
+        words.append(curr)
+        return
+    for k, v in di.items():
+        dfs(v, curr + k)
+dfs(di, "")
+with open("test.txt", "w") as f:
+    f.write("\n".join(sorted(words)))
+print("\n".join(sorted(words)))
