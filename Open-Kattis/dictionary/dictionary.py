@@ -1,36 +1,38 @@
 import gzip
 import bz2
 import re
-with open("bin.txt", "rb") as f:
+# from time import time
+import json
+# t0 = time()
+with open("/src/bin.txt", "rb") as f:
     T = bz2.decompress(
             gzip.decompress(
                 f.read()
             )
         ).decode()
-sub1 = re.sub(
-    pattern = "[a-zA-Z']",
+sub0 = re.sub(
+    pattern = "[a-zA-Z']a",
     repl = lambda x: '"' + x.group() + '":',
     string = T
 )
+sub1 = re.sub(
+    pattern = "[a-zA-Z']{",
+    repl = lambda x: '"' + x.group()[ : -1] + '":{',
+    string = sub0
+)
 sub2 = re.sub(
-    pattern = ":}",
-    repl = ":{" + "}" + "}",
+    pattern = ":(,|})",
+    repl = lambda x: ':{}' + x.group()[1 : ],
     string = sub1
 )
-sub3 = re.sub(
-    pattern = ":,",
-    repl = ":{" + "},",
-    string = sub2
-)
-di = eval(sub3)
+di = json.loads(sub2)
 words = []
-def dfs(di, curr):
+def dfs(di, curr, app = False):
+    if app:
+        words.append("".join(curr))
     if len(di) == 0:
-        words.append(curr)
         return
     for k, v in di.items():
-        dfs(v, curr + k)
-dfs(di, "")
-with open("test.txt", "w") as f:
-    f.write("\n".join(sorted(words)))
-print("\n".join(sorted(words)))
+        dfs(v, curr + [k[ : 1]], len(k) > 1)
+dfs(di, [])
+print("\n".join(words))

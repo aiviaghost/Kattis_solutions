@@ -22,7 +22,7 @@ with open("dict.txt") as f:
     words = f.read().strip().split("\n")
 
 T = Trie()
-for word in words:
+for word in words[ : 92000]:
     T.insert(word)
 
 def dfs(t):
@@ -30,7 +30,7 @@ def dfs(t):
         return {}
     curr = {}
     for k, v in t.children.items():
-        curr[k] = dfs(v)
+        curr[k + ("a" if v.is_end else "")] = dfs(v)
     return curr
 
 s = str(dfs(T)).replace(" ", "")
@@ -41,17 +41,16 @@ with open("original.txt", "w") as f:
 s = s.encode()
 
 with open("bin.txt", "wb") as f:
-    # f.write((gzip.compress(bz2.compress(s))))
     sub1 = re.sub(
-            pattern = b"'[a-zA-Z']'", 
+            pattern = b"'[a-zA-Z'](a|)'", 
             repl = lambda x: x.group()[1 : -1], 
             string = s
         )
     sub2 = re.sub(
-            pattern = b'"[a-zA-Z\']"', 
+            pattern = b'"[a-zA-Z\'](a|)"', 
             repl = lambda x: x.group()[1 : -1], 
             string = sub1
-        ).replace(b"{}", b"").replace(b":", b"")
+        ).replace(b"{}", b"").replace(b":", b"").replace(b"''", b"")
     f.write(
         gzip.compress(bz2.compress(sub2))
     )
