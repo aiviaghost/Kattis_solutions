@@ -22,8 +22,8 @@ with open("dict.txt") as f:
     words = f.read().strip().split("\n")
 
 T = Trie()
-for word in words[ : 97000]:
-    T.insert(word)
+for word in words[ : 97599]:
+    T.insert(word.replace("'s", "&"))
 
 def dfs(t):
     if len(t.children) == 0:
@@ -42,7 +42,7 @@ s = s.encode()
 
 with open("bin.txt", "wb") as f:
     sub1 = re.sub(
-            pattern = b"'[a-zA-Z'](a|)'", 
+            pattern = b"'[a-zA-Z&'](a|)'", 
             repl = lambda x: x.group()[1 : -1], 
             string = s
         )

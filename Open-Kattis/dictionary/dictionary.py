@@ -1,20 +1,17 @@
-import gzip
 import bz2
 import re
-# from time import time
 import json
-# t0 = time()
 with open("/src/bin.txt", "rb") as f:
     T = bz2.decompress(
             f.read()
         ).decode()
 sub0 = re.sub(
-    pattern = "[a-zA-Z']a",
+    pattern = "[a-zA-Z&']a",
     repl = lambda x: '"' + x.group() + '":',
     string = T
 )
 sub1 = re.sub(
-    pattern = "[a-zA-Z']{",
+    pattern = "[a-zA-Z&']{",
     repl = lambda x: '"' + x.group()[ : -1] + '":{',
     string = sub0
 )
@@ -31,6 +28,6 @@ def dfs(di, curr, app = False):
     if len(di) == 0:
         return
     for k, v in di.items():
-        dfs(v, curr + [k[ : 1]], len(k) > 1)
+        dfs(v, curr + [k[:1]], len(k) > 1)
 dfs(di, [])
-print("\n".join(words))
+print("\n".join(sorted(map(lambda x: x.replace("&", "'s"), words))))
