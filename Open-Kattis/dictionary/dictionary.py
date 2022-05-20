@@ -5,5 +5,6 @@ def dfs(d,c,a=0):
     for k,v in d.items():
         dfs(v,c+k[0],len(k)>1)
 p="[a-zA-Z&']"
-dfs(json.loads(re.sub(":(,|})",lambda x:':{}'+x.group()[1:],re.sub(p+"{",lambda x:'"'+x.group()[:-1]+'":{',re.sub(p+"a",lambda x:f'"{x.group()}":',bz2.decompress(gzip.decompress(open("/src/aa","rb").read())).decode())))),"")
-print("\n".join(sorted(map(lambda x:x.replace("&","'s"),w))))
+f=re.sub
+dfs(json.loads(f(":(,|})",lambda x:':{}'+x.group()[1:],f(p+"{",lambda x:'"'+x.group()[:-1]+'":{',f(p+"a",lambda x:f'"{x.group()}":',bz2.decompress(gzip.decompress(open("/src/aa","rb").read())).decode())))),"")
+print("\n".join(sorted(x.replace("&","'s") for x in w)))

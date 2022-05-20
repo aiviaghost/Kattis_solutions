@@ -22,7 +22,7 @@ with open("dict.txt") as f:
     words = f.read().strip().split("\n")
 
 T = Trie()
-for word in words[ : 98666]:
+for word in words[ : 98925]:
     T.insert(word.replace("'s", "&"))
 
 def dfs(t):
