@@ -1,33 +1,9 @@
-import bz2
-import re
-import json
-with open("/src/bin.txt", "rb") as f:
-    T = bz2.decompress(
-            f.read()
-        ).decode()
-sub0 = re.sub(
-    pattern = "[a-zA-Z&']a",
-    repl = lambda x: '"' + x.group() + '":',
-    string = T
-)
-sub1 = re.sub(
-    pattern = "[a-zA-Z&']{",
-    repl = lambda x: '"' + x.group()[ : -1] + '":{',
-    string = sub0
-)
-sub2 = re.sub(
-    pattern = ":(,|})",
-    repl = lambda x: ':{}' + x.group()[1 : ],
-    string = sub1
-)
-di = json.loads(sub2)
-words = []
-def dfs(di, curr, app = False):
+import bz2,re,json,gzip
+w=[]
+def dfs(di,curr,app=0):
     if app:
-        words.append("".join(curr))
-    if len(di) == 0:
-        return
-    for k, v in di.items():
-        dfs(v, curr + [k[:1]], len(k) > 1)
-dfs(di, [])
-print("\n".join(sorted(map(lambda x: x.replace("&", "'s"), words))))
+        w.append("".join(curr))
+    for k,v in di.items():
+        dfs(v,curr+[k[:1]],len(k)>1)
+dfs(json.loads(re.sub(":(,|})",lambda x:':{}'+x.group()[1:],re.sub("[a-zA-Z&']{",lambda x:'"'+x.group()[:-1]+'":{',re.sub("[a-zA-Z&']a",lambda x:'"'+x.group()+'":',bz2.decompress(gzip.decompress(open("/src/bin.txt","rb").read())).decode())))),[])
+print("\n".join(sorted(map(lambda x:x.replace("&","'s"),w))))
