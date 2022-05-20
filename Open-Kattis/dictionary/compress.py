@@ -22,9 +22,8 @@ with open("dict.txt") as f:
     words = f.read().strip().split("\n")
 
 T = Trie()
-for word in words[ : 98925]:
+for word in words[ : 98966]:
     T.insert(word.replace("'s", "&"))
-
 def dfs(t):
     if len(t.children) == 0:
         return {}
@@ -32,15 +31,11 @@ def dfs(t):
     for k, v in t.children.items():
         curr[k + ("a" if v.is_end else "")] = dfs(v)
     return curr
-
 s = str(dfs(T)).replace(" ", "")
-
 with open("original.txt", "w") as f:
     f.write(s)
-
 s = s.encode()
-
-with open("aa", "wb") as f:
+with open(f"aa", "wb") as f:
     sub1 = re.sub(
             pattern = b"'[a-zA-Z&'](a|)'", 
             repl = lambda x: x.group()[1 : -1], 
