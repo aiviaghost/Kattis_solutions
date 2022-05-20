@@ -6,9 +6,7 @@ import json
 # t0 = time()
 with open("/src/bin.txt", "rb") as f:
     T = bz2.decompress(
-            gzip.decompress(
-                f.read()
-            )
+            f.read()
         ).decode()
 sub0 = re.sub(
     pattern = "[a-zA-Z']a",

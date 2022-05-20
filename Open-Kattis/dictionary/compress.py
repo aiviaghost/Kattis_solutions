@@ -22,7 +22,7 @@ with open("dict.txt") as f:
     words = f.read().strip().split("\n")
 
 T = Trie()
-for word in words[ : 92000]:
+for word in words[ : 97000]:
     T.insert(word)
 
 def dfs(t):
@@ -52,5 +52,5 @@ with open("bin.txt", "wb") as f:
             string = sub1
         ).replace(b"{}", b"").replace(b":", b"").replace(b"''", b"")
     f.write(
-        gzip.compress(bz2.compress(sub2))
+        bz2.compress(sub2)
     )
