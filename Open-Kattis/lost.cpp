@@ -47,8 +47,8 @@ auto main() -> int {
     queue<string> q({eng});
     unordered_map<string, int> dist;
     dist[eng] = 0;
-    unordered_map<string, pair<string, int>> par;
-    par[eng] = {"", 0};
+    unordered_map<string, int> par_cost;
+    par_cost[eng] = 0;
     while (!q.empty()) {
         string curr = q.front();
         q.pop();
@@ -56,12 +56,12 @@ auto main() -> int {
             int new_dist = dist[curr] + 1;
             if (!in(dist, next)) {
                 dist[next] = new_dist;
-                par[next] = {curr, c};
+                par_cost[next] = c;
                 q.push(next);
             }
             else {
-                if (new_dist == dist[next] && c < par[next].second) {
-                    par[next] = {curr, c};
+                if (new_dist == dist[next] && c < par_cost[next]) {
+                    par_cost[next] = c;
                 }
             }
         }
@@ -69,12 +69,11 @@ auto main() -> int {
     bool possible = true;
     int total = 0;
     for (string start : targets) {
-        if (!in(par, start)) {
+        if (!in(par_cost, start)) {
             possible = false;
             break;
         }
-        auto [_, c] = par[start];
-        total += c;    
+        total += par_cost[start];    
     }
     cout << (possible ? to_string(total) : "Impossible") << "\n";
 }
