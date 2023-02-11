@@ -4,19 +4,18 @@ n = len(inp) - 1
 
 possible = set()
 
-for ii in range(1 << n):
-    bits = [(ii >> i) & 1 for i in range(n)]
+for bits in range(1 << n):
+    mask = [(bits >> i) & 1 for i in range(n)]
     xs = []
     i = 0
-    j = 0
     while i < n:
-        if bits[i] == 0:
+        if mask[i] == 0:
             xs.append(inp[i])
             i += 1
         else:
             j = i + 1
             while j < n:
-                if bits[j] == 1:
+                if mask[j] == 1:
                     j += 1
                 else:
                     break
