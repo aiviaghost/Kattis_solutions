@@ -125,7 +125,7 @@ signed main() {
     }
 
     int max_x = coordinate_compression(points, sensors);
-    Segment_tree st(0, max_x);
+    Segment_tree st(0, max_x - 1);
 
     unordered_map<int, set<pii>> y_levels;
     map<pii, int> idx_map;
