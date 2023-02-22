@@ -1,2 +1,2 @@
-cp $1 src/bin
-cargo run --bin ${1%.rs}
+cp $1 src/bin/a.rs
+cargo run --bin a
