@@ -1,4 +1,5 @@
 .vscode/
 *.exe
 *.class
-/full_java_projects
+target/
+src/

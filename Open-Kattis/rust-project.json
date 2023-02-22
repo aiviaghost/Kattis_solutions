@@ -1,0 +1,15 @@
+{
+  "sysroot_src": "/home/aiviaghost/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library",
+  "crates": [
+    {
+      "root_module": "equivalences.rs",
+      "edition": "2021",
+      "deps": []
+    },
+    {
+      "root_module": "reversingroads.rs",
+      "edition": "2021",
+      "deps": []
+    }
+  ]
+}
