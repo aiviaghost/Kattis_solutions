@@ -1,0 +1,1 @@
+input();xs=sorted(map(int,input().split()))[::-1];print(sum(xs[i]for i in range(2,len(xs),3)))
