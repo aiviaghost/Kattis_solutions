@@ -31,35 +31,33 @@ vector<vector<int>> adj;
 vector<int> first, last;
 vector<u128> color, values;
 
-void compute_euler(int curr, int from) {
+void dfs(int curr) {
     first[curr] = size(values);
     values.push_back(color[curr]);
     for (int next : adj[curr]) {
-        if (next != from) {
-            compute_euler(next, curr);
-        }
+        dfs(next);
     }
     last[curr] = size(values) - 1;
 }
 
 struct Tree {
-	typedef u128 T;
-	static constexpr T unit = 0;
-	inline T f(T a, T b) { return a ^ b; } // (any associative fn)
-	vector<T> s; int n;
-	Tree(int n = 0, T def = unit) : s(n << 1, def), n(n) {}
-	void update(int pos, T val) {
-		for (s[pos += n] = val; pos >>= 1;)
-			s[pos] = f(s[pos << 1], s[(pos << 1) + 1]);
-	}
-	T query(int b, int e) { // query [b, e)
-		T ra = unit, rb = unit;
-		for (b += n, e += n; b < e; b >>= 1, e >>= 1) {
-			if (b & 1) ra = f(ra, s[b++]);
-			if (e & 1) rb = f(s[--e], rb);
-		}
-		return f(ra, rb);
-	}
+    typedef u128 T;
+    static constexpr T unit = 0;
+    inline T f(T a, T b) { return a ^ b; } // (any associative fn)
+    vector<T> s; int n;
+    Tree(int n = 0, T def = unit) : s(n << 1, def), n(n) {}
+    void update(int pos, T val) {
+        for (s[pos += n] = val; pos >>= 1;)
+            s[pos] = f(s[pos << 1], s[(pos << 1) + 1]);
+    }
+    T query(int b, int e) { // query [b, e)
+        T ra = unit, rb = unit;
+        for (b += n, e += n; b < e; b >>= 1, e >>= 1) {
+            if (b & 1) ra = f(ra, s[b++]);
+            if (e & 1) rb = f(s[--e], rb);
+        }
+        return f(ra, rb);
+    }
 };
 
 int get_int() {
@@ -83,13 +81,12 @@ signed main() {
     adj.resize(n);
     for (int u = 1; u < n; u++) {
         int v = get_int() - 1;
-        adj[u].push_back(v);
         adj[v].push_back(u);
     }
 
     first.resize(n);
     last.resize(n);
-    compute_euler(0, INF);
+    dfs(0);
 
     Tree st(size(values));
     for (int i = 0; i < size(values); i++) {
