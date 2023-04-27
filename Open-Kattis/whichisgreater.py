@@ -1,0 +1,1 @@
+print((lambda a, b: int(a > b))(*map(int, (input().split()))))

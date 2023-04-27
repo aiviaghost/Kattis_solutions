@@ -1,0 +1,1 @@
+print((lambda a, b: (a * b) / 2)(*map(int, (input().split()))))
