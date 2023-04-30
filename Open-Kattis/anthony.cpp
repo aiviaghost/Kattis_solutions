@@ -28,9 +28,7 @@ const int MOD = 1e9 + 7;
 vector<double> probs;
 vector<vector<double>> E;
 
-double dfs(pii curr) {
-    auto [n, m] = curr;
-
+double dfs(int n, int m) {
     if (n == 0 || m == 0) {
         return 0;
     }
@@ -40,8 +38,8 @@ double dfs(pii curr) {
     }
 
     E[n][m] = 0;
-    E[n][m] += (dfs({n, m - 1}) + (m - 1 == 0 ? 1 : 0)) * probs[n + m - 2];
-    E[n][m] += (dfs({n - 1, m}) + 0) * (1 - probs[n + m - 2]);
+    E[n][m] += (dfs(n, m - 1) + (m - 1 == 0 ? 1 : 0)) * probs[n + m - 2];
+    E[n][m] += (dfs(n - 1, m) + 0) * (1 - probs[n + m - 2]);
     
     return E[n][m];
 }
@@ -59,5 +57,5 @@ signed main() {
 
     E = make(-1.0, n + 1, m + 1);
 
-    cout << fixed << setprecision(20) << dfs({n, m}) << "\n";
+    cout << fixed << setprecision(20) << dfs(n, m) << "\n";
 }
