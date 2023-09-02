@@ -30,10 +30,7 @@ signed main() {
 
     unordered_map<int, int> next_fib;
     int f1 = 1, f2 = 1;
-    while (1) {
-        if (f1 > 1e18) {
-            break;
-        }
+    while (f1 <= 1e18) {
         next_fib[f1] = f2;
         int f3 = f1 + f2;
         f1 = f2;
