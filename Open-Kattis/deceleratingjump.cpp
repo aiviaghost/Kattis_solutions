@@ -49,10 +49,5 @@ signed main() {
         }
     }
 
-    int ans = -INF;
-    for (int i = 0; i < n; i++) {
-        ans = max(ans, dp[i][0]);
-    }
-
-    cout << ans << "\n";
+    cout << dp[n - 1][0] << "\n";
 }
