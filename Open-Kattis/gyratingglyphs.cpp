@@ -34,7 +34,7 @@ signed main() {
     const int POWERS[] = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768};
 
     auto get_random_query = []() -> int {
-        return uniform_int_distribution<int>(1, MOD - 1)(rng);
+        return uniform_int_distribution<int>(0, MOD - 1)(rng);
     };
 
     int n;
