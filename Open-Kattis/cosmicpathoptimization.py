@@ -1,0 +1,1 @@
+input();print(sum(x:=list(map(int,input().split())))//len(x))
