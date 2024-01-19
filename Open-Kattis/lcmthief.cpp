@@ -121,14 +121,7 @@ signed main() {
         for (auto [p, exp] : factored_nums[i]) {
             if (exp_count[p].first == exp && exp_count[p].second == 1) {
                 auto next = possible_exps[p].lower_bound(exp);
-                int div_exp;
-                if (next != possible_exps[p].begin()) {
-                    next--;
-                    div_exp = exp - *next;
-                }
-                else {
-                    div_exp = exp;
-                }
+                int div_exp = next != possible_exps[p].begin() ? exp - *(--next) : exp;
                 int div = pow(p, div_exp);
                 curr_div *= div;
             }
