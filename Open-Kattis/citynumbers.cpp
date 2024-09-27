@@ -82,15 +82,27 @@ signed main()
             color_answers[c] = local_ans;
         }
 
+        int min_color = 0;
+        for (int c = 0; c < k; c++)
+        {
+            if (color_answers[c] < color_answers[min_color])
+            {
+                min_color = c;
+            }
+        }
+
+        int second_min = min_color == 0 ? 1 : 0;
+        for (int c = 0; c < k; c++)
+        {
+            if (c != min_color && color_answers[c] < color_answers[second_min])
+            {
+                second_min = c;
+            }
+        }
+
         for (int temp_disallowed_color = 0; temp_disallowed_color < k; temp_disallowed_color++)
         {
-            for (int c = 0; c < k; c++)
-            {
-                if (c != temp_disallowed_color)
-                {
-                    dp[curr][temp_disallowed_color] = min(dp[curr][temp_disallowed_color], color_answers[c]);
-                }
-            }
+            dp[curr][temp_disallowed_color] = temp_disallowed_color == min_color ? color_answers[second_min] : color_answers[min_color];
         }
 
         return dp[curr][disallowed_color];
