@@ -1,0 +1,1 @@
+n,p=map(int,input().split());print(2*((n//2-p//2)%p) if n%p else 2*(n//2-p//2)%p)
