@@ -129,17 +129,21 @@ signed main()
     {
         Dinic flow(2 * n + 1);
 
+        flow.addEdge(start, target, ice[target].num);
         for (int u = 0; u < n; u++)
         {
-            flow.addEdge(start, n + u, ice[u].num);
-            flow.addEdge(n + u, u, u != target ? ice[u].hp : INF);
+            if (u != target)
+            {
+                flow.addEdge(start, n + u, ice[u].num);
+                flow.addEdge(n + u, u, ice[u].hp);
+            }
         }
 
         for (auto [u, v] : edges)
         {
             if (u != target)
             {
-                flow.addEdge(u, n + v, ice[u].hp);
+                flow.addEdge(u, v != target ? n + v : v, ice[u].hp);
             }
         }
 
