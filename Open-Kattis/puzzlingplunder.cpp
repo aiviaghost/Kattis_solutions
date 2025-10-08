@@ -6,7 +6,7 @@ using namespace std;
 using namespace __gnu_pbds;
 // #define unordered_map gp_hash_table
 
-// #define int ll
+#define int ll
 #define all(xs) xs.begin(), xs.end()
 #define in(xs, a) (xs.find(a) != xs.end())
 #define sz(x) (ll)(x).size()
@@ -107,7 +107,7 @@ namespace std {
         size_t operator()(const Grid & grid) const noexcept {
             size_t h = 0;
             for (int i = 0; i < grid.h; i++) {
-                h = 692711 * h + grid.grid[i];
+                h = i64(692711) * h + grid.grid[i];
             }
             return h;
         }
