@@ -1,0 +1,1 @@
+print(int.__mod__(*map(int,(input(),input()))))

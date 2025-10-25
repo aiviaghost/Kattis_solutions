@@ -1,0 +1,1 @@
+print(min(10**5, *(int(input()) for _ in range(int(input())))))

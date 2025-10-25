@@ -1,0 +1,1 @@
+print(*max(((i+1,sum(map(int,input().split())))for i in range(5)),key=lambda row:row[1]))

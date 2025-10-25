@@ -1,0 +1,1 @@
+print(max((input().split() for _ in range(int(input()))), key=lambda p: int(p[1]))[0])

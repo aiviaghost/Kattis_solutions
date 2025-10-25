@@ -1,0 +1,1 @@
+print(int.__mul__(*[int(input()) for _ in range(3)][::2]))

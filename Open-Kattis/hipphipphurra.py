@@ -1,0 +1,1 @@
+name=input();print("\n".join(f"Hipp hipp hurra, {name}!"for _ in range(int(input()))))

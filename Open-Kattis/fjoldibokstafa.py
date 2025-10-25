@@ -1,0 +1,1 @@
+print(sum(map(str.isalpha,input())))

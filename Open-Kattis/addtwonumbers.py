@@ -1,0 +1,1 @@
+print(int.__add__(*map(int,input().split())))

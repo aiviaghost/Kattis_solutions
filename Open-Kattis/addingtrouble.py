@@ -1,0 +1,1 @@
+print("correct!" if sum((nums:=list(map(int, input().split())))[:2]) == nums[-1] else "wrong!")

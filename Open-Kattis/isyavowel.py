@@ -1,0 +1,1 @@
+[counts := __import__("collections").Counter(input()), vowels := ["a", "e", "i", "o", "u"], print((s := sum([counts[v] for v in vowels])), s + counts["y"])]
