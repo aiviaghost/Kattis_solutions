@@ -1,0 +1,1 @@
+n=int(input());x="-"*n;print(f"+{x}+\n"+f"|{' '*n}|\n"*n+f"+{x}+")

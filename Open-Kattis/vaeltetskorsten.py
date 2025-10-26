@@ -1,0 +1,1 @@
+print(max((input().split() for _ in range(int(input()))), key=lambda x: int(x[0]) if x[1] == "nej" else 0)[0])
