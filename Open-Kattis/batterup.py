@@ -1,0 +1,1 @@
+input();print(sum(s:=[int(x)for x in input().split()if x!="-1"])/len(s))
