@@ -1,0 +1,1 @@
+for _ in range(int(input())):print(f"{(x:=int(input()))} is {'odd'if x%2 else'even'}")
