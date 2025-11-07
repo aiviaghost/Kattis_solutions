@@ -1,0 +1,1 @@
+print(int(len(set(s:=input()))==len(s)))
