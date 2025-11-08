@@ -1,0 +1,1 @@
+print(i if (i := input().find("tree")) != -1 else "no trees here")

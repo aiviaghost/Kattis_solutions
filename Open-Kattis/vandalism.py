@@ -1,0 +1,1 @@
+print(*set("UAPC")-set(input()),sep="")
