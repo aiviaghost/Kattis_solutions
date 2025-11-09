@@ -1,0 +1,1 @@
+input();print("".join(filter(str.isupper,map(next,map(iter,input().split())))))
