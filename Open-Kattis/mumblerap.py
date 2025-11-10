@@ -1,0 +1,1 @@
+import re;input();print(max(map(int,re.findall("\d+",input()))))
